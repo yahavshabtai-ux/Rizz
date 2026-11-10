@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0e1b">
+  <meta name="description" content="FROST — הופכים הודעות מעצבנות לתשובות רגועות, חדות ומכבדות. העלו צילום מסך או הדביקו טקסט.">
+  <title>FROST — להגיב בקור רוח</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page-glow page-glow-one" aria-hidden="true"></div>
+  <div class="page-glow page-glow-two" aria-hidden="true"></div>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="FROST - חזרה למעלה">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M16 3v26M3 16h26M6.8 6.8l18.4 18.4M25.2 6.8 6.8 25.2" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><circle cx="16" cy="16" r="4" fill="currentColor"/></svg>
+        </span>
+        <span class="brand-name">FROST<span class="brand-period">.</span><small>REPLY STUDIO</small></span>
+      </a>
+      <div class="topbar-right">
+        <span class="online-dot"></span>
+        <span>בלי חשבון. בלי שרת.</span>
+        <span class="topbar-divider"></span>
+        <span class="topbar-language">HE <span aria-hidden="true">/</span> EN</span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <div class="eyebrow"><span class="eyebrow-spark">✦</span> YOUR NEXT MOVE, BUT CALMER</div>
+          <h1 id="hero-title">לא צריך לצעוק.<br><span class="gradient-text">צריך לדעת מה לענות.</span></h1>
+          <p class="hero-subtitle">מישהו מדבר אליך לא יפה, מפעיל לחץ או מנסה להוציא אותך משלוותך? שלח צילום מסך וקבל תשובות קרות, חדות ועם גבולות ברורים.</p>
+          <div class="hero-tags"><span><span class="check-icon">✓</span> תשובות להעתקה</span><span><span class="check-icon">✓</span> צילום מסך או טקסט</span><span><span class="check-icon">✓</span> עברית ואנגלית</span></div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="visual-topline"><span class="visual-avatar">F</span><div><strong>תגובה חכמה</strong><small>נשארים בשליטה</small></div><span class="visual-dots">•••</span></div>
+          <div class="visual-incoming"><span class="bubble-caption">ההודעה שהגיעה</span><p>נו מה נסגר איתך? למה אתה מסנן?!</p></div>
+          <div class="visual-answer"><div class="answer-check">✦ <span>FROST SUGGESTS</span></div><p>אני אענה כשיהיה לי זמן. אפשר לדבר רגוע.</p></div>
+          <div class="visual-bottom"><span>0% דרמה</span><div class="mini-track"><span></span></div><span>100% שליטה</span></div>
+        </div>
+      </section>
+
+      <section class="workspace" id="studio" aria-label="יצירת תשובה">
+        <div class="workspace-heading"><div><span class="section-kicker">THE STUDIO</span><h2>בונים את התגובה שלך</h2></div><span class="workspace-pill"><span></span> מוכן לעבודה</span></div>
+        <div class="workspace-grid">
+          <section class="panel input-panel" aria-labelledby="input-heading">
+            <div class="panel-top"><div class="step-dot">01</div><div><h3 id="input-heading">מה כתבו לך?</h3><p>העלה צילום מסך או הדבק את ההודעה</p></div></div>
+
+            <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="לחץ או גרור לכאן צילום מסך">
+              <input type="file" id="screenshot-input" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" hidden>
+              <div id="dropzone-empty" class="dropzone-empty">
+                <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" stroke="currentColor" stroke-width="1.6"/><path d="m8 15 3-3 2 2 2.5-3 3.5 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8.5" cy="8.5" r="1.4" fill="currentColor"/></svg></div>
+                <strong>הוסף צילום מסך</strong>
+                <span>לחץ לבחירת תמונה או גרור אותה לכאן</span>
+                <small>PNG, JPG, WEBP • התמונה נשארת בדפדפן שלך</small>
+              </div>
+              <div id="image-preview-box" class="image-preview-box" hidden><img id="image-preview" alt="תצוגה מקדימה של צילום המסך שהעלית"><span class="preview-label">צילום המסך שלך</span></div>
+            </div>
+            <div id="file-actions" class="file-actions" hidden><span id="file-name" class="file-name"></span><button type="button" id="remove-image" class="text-button">הסר תמונה ✕</button></div>
+            <p class="drop-hint">אפשר גם להדביק צילום מסך עם Ctrl / ⌘ + V.</p>
+
+            <div class="or-divider"><span>או להדביק טקסט</span></div>
+            <div class="textarea-wrap"><label class="input-label" for="message-input">ההודעה שקיבלת</label><textarea id="message-input" maxlength="6000" spellcheck="false" placeholder="לדוגמה: 'למה אתה לא עונה לי?! אתה חייב לענות עכשיו...'" aria-describedby="input-hint"></textarea><div class="textarea-foot"><span id="input-hint">מומלץ למחוק שמות ומידע אישי</span><span id="character-count">0 / 6000</span></div></div>
+
+            <div class="examples"><span class="examples-title">נסה דוגמה:</span><div class="example-buttons"><button type="button" class="example-chip" data-example="insult">מעליבים אותי</button><button type="button" class="example-chip" data-example="pressure">לוחצים עליי</button><button type="button" class="example-chip" data-example="threat">מאיימים עליי</button></div></div>
+
+            <div class="tone-section"><div class="tone-label"><strong>איך לענות?</strong><span>לבחירתך</span></div><div class="tone-options" role="group" aria-label="סגנון התגובה"><button type="button" class="tone-option is-selected" data-tone="cool" aria-pressed="true"><span>❄</span> קר ורגוע</button><button type="button" class="tone-option" data-tone="firm" aria-pressed="false"><span>⚡</span> חד וברור</button><button type="button" class="tone-option" data-tone="end" aria-pressed="false"><span>◌</span> סוגר שיחה</button></div></div>
+
+            <button type="button" id="generate-btn" class="primary-button"><span id="button-caption">צור לי תשובה</span><span class="arrow-icon" aria-hidden="true">↖</span></button>
+            <p id="ocr-progress" class="progress-message" role="status" aria-live="polite" hidden></p>
+          </section>
+
+          <section class="panel output-panel" aria-labelledby="output-heading">
+            <div class="panel-top"><div class="step-dot alt">02</div><div><h3 id="output-heading">התשובה שלך</h3><p>בחר את המשפט שהכי מתאים לך</p></div><span class="result-header-icon" aria-hidden="true">✳</span></div>
+            <div id="empty-state" class="empty-state"><div class="empty-graphic"><span class="empty-orbit orbit-one"></span><span class="empty-orbit orbit-two"></span><span class="empty-graphic-center">✳</span></div><h3>הכדור במגרש שלך.</h3><p>העלה צילום מסך או הדבק הודעה, ונעזור לך לענות בלי לאבד את הקור רוח.</p><div class="empty-tiny">STAY COOL. STAY IN CONTROL.</div></div>
+            <div id="result-state" class="result-state" hidden>
+              <div class="analysis-label"><span class="spark-blob">✦</span><div><small>ניתוח ההודעה</small><strong id="detected-title">לחץ להגיב</strong></div><span id="confidence-badge" class="tag-soft">זיהוי משוער</span></div>
+              <p id="analysis-description" class="analysis-description"></p>
+              <div id="safety-notice" class="safety-notice" hidden><div class="notice-icon">!</div><div><strong>חשוב לדעת</strong><p id="safety-text"></p></div></div>
+              <div id="recognized-details" class="recognized-details" hidden><details><summary>הטקסט שזוהה מהתמונה <span>בדוק ותקן אם צריך</span></summary><p id="recognized-text"></p><button id="edit-recognized" type="button" class="text-button">ערוך טקסט לפני יצירת תשובה חדשה</button></details></div>
+              <div class="result-list-title">התשובות המוצעות <span>לחץ על העתקה</span></div>
+              <div id="response-list" class="response-list" aria-live="polite"></div>
+              <div class="result-footnote"><span aria-hidden="true">✧</span> התגובות נועדו להציב גבולות בלי לגרור את השיחה לריב נוסף.</div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="how-it-works" aria-labelledby="how-heading"><div class="how-title"><span class="section-kicker">SIMPLE BY DESIGN</span><h2 id="how-heading">שלושה צעדים. אפס דרמה.</h2></div><div class="how-grid"><div class="how-step"><span class="how-number">01</span><div class="how-icon">▧</div><strong>מעלים</strong><p>צילום מסך או העתקה של הודעה.</p></div><div class="how-step"><span class="how-number">02</span><div class="how-icon">✳</div><strong>מזהים</strong><p>האתר בודק אם יש לחץ, עלבונות או איום.</p></div><div class="how-step"><span class="how-number">03</span><div class="how-icon">↗</div><strong>עונים</strong><p>מעתיקים תשובה רגועה שמציבה גבול.</p></div></div></section>
+    </main>
+
+    <footer><div class="footer-brand">✳ FROST.</div><p>כלי להצעות תגובה, לא מערכת AI שמבינה כל הקשר. במקרה של סחיטה, אל תתמודד לבד — שמור ראיות ופנה למבוגר אחראי או לגורם מתאים.</p><span>MADE FOR BETTER REPLIES · 2026</span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
