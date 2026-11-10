@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8fb">
+  <meta name="description" content="FROST — מציעים תשובות קצרות, רגועות וברורות להודעות. העלו צילום מסך או הדביקו טקסט.">
+  <title>FROST — מה לענות לזה?</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%233b5bdb'/%3E%3Cpath d='M32 13v38M13 32h38M19 19l26 26M45 19 19 45' stroke='white' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <style>
+:root {
+  color-scheme: light;
+  --page: #f7f8fb;
+  --paper: #ffffff;
+  --ink: #151927;
+  --muted: #717987;
+  --soft: #969eaa;
+  --line: #e8ebf0;
+  --line-strong: #d8deea;
+  --blue: #3b5bdb;
+  --blue-dark: #304cbb;
+  --blue-tint: #eff3ff;
+  --radius: 20px;
+  --shadow: 0 4px 28px rgba(28, 40, 64, .035);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-height: 100vh; background: var(--page); color: var(--ink); font: 400 15px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+button, textarea, input { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, textarea:focus-visible, a:focus-visible, .dropzone:focus-visible { outline: 3px solid rgba(59,91,219,.38); outline-offset: 3px; }
+[hidden] { display: none !important; }
+button:disabled { cursor: wait; opacity: .68; }
+.site-header { width: 100%; background: rgba(255,255,255,.86); border-bottom: 1px solid #edf0f4; }
+.header-inner { max-width: 1080px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.brand { display: inline-flex; align-items: center; text-decoration: none; color: var(--ink); gap: 10px; }
+.brand-logo { width: 33px; height: 33px; display: grid; place-items: center; border-radius: 10px; background: var(--blue); color: #fff; }
+.brand-logo svg { width: 19px; height: 19px; }
+.brand-word { font-size: 21px; font-weight: 800; letter-spacing: -.8px; line-height: 1; direction: ltr; }
+.header-side { color: #818a96; font-size: 12px; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: #35b993; }
+main { max-width: 700px; margin: 0 auto; padding: 56px 22px 72px; }
+.intro { margin: 0 0 31px; }
+.eyebrow { color: var(--blue); font-size: 12px; font-weight: 750; letter-spacing: .1px; margin-bottom: 9px; }
+h1 { font-size: clamp(32px, 5vw, 45px); line-height: 1.22; letter-spacing: -1.4px; margin: 0 0 11px; font-weight: 800; }
+.question { color: var(--blue); }
+.intro p { margin: 0; font-size: 16px; line-height: 1.8; color: #606b7c; max-width: 545px; }
+.composer { border: 1px solid var(--line); background: var(--paper); border-radius: 23px; box-shadow: var(--shadow); padding: 28px; }
+.section-titlebar { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 23px; }
+.section-num { flex: 0 0 auto; background: var(--blue-tint); border-radius: 9px; color: var(--blue); width: 31px; height: 31px; display: grid; place-items: center; font-size: 12px; font-weight: 800; }
+h2 { margin: 0; font-size: 18px; line-height: 1.45; letter-spacing: -.3px; font-weight: 750; }
+.section-caption { margin: 2px 0 0; color: #7c8592; font-size: 13px; }
+.dropzone { border: 1.5px dashed #c9d2e3; background: #fafbfe; padding: 26px 18px; border-radius: 14px; text-align: center; transition: .2s; user-select: none; }
+.dropzone:hover, .dropzone.is-dragover { border-color: #6480e3; background: #f3f6ff; }
+.upload-icon { margin: 0 auto 11px; display: grid; place-items: center; width: 45px; height: 45px; color: var(--blue); background: #eef2ff; border-radius: 13px; }
+.upload-icon svg { width: 23px; height: 23px; }
+.dropzone-empty strong { display: block; font-size: 15px; font-weight: 750; }
+.dropzone-empty span, .dropzone-empty small { display: block; color: var(--muted); font-size: 12px; margin-top: 3px; }
+.dropzone-empty small { margin-top: 10px; color: #9aa4b2; font-size: 11px; }
+.image-preview-box { width: 100%; position: relative; padding: 2px; }
+.image-preview-box img { display: block; height: 170px; max-width: 100%; object-fit: contain; border-radius: 8px; margin: auto; }
+.preview-label { display: block; font-size: 12px; color: #7d899b; margin-top: 12px; }
+.file-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding-top: 11px; font-size: 12px; }
+.file-name { color: #7b8494; max-width: 75%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; direction: ltr; }
+.text-button { background: none; border: 0; color: var(--blue); padding: 4px; font-size: 12px; font-weight: 700; }
+.or-divider { display: flex; align-items: center; color: #9ea6b0; font-size: 12px; margin: 20px 0 16px; gap: 14px; }
+.or-divider:before, .or-divider:after { content: ''; height: 1px; flex: 1; background: var(--line); }
+.field-label { display: block; color: #343b48; font-weight: 680; font-size: 13px; margin-bottom: 9px; }
+.textarea-wrap { position: relative; }
+#message-input { display: block; width: 100%; min-height: 126px; resize: vertical; background: #fff; color: var(--ink); padding: 14px 15px; border: 1px solid #dfe4ed; border-radius: 12px; outline: none; font-size: 14px; line-height: 1.65; transition: border-color .15s, box-shadow .15s; }
+#message-input::placeholder { color: #a0a8b5; }
+#message-input:focus { border-color: #6b86e6; box-shadow: 0 0 0 3px rgba(59,91,219,.09); }
+.field-hint { margin: 7px 1px 0; display: flex; justify-content: space-between; color: #929baa; font-size: 11px; gap: 12px; }
+#character-count { direction: ltr; white-space: nowrap; }
+.examples { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin-top: 15px; }
+.examples-title { color: #8993a0; font-size: 12px; margin-left: 2px; }
+.example-chip { padding: 5px 11px; border: 1px solid #e4e8ee; background: #f9fafc; border-radius: 8px; color: #697484; font-size: 12px; transition: .18s; }
+.example-chip:hover { color: var(--blue); border-color: #c4d0ff; background: #f5f7ff; }
+.subtle-divider { height: 1px; background: var(--line); margin: 25px 0 22px; }
+.tone-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 11px; }
+.tone-title strong { font-size: 14px; font-weight: 730; }
+.tone-title span { color: #a1aab6; font-size: 12px; }
+.tone-options { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+.tone-option { border: 1px solid #e1e5ed; border-radius: 11px; background: #fff; min-height: 46px; color: #697486; font-size: 13px; font-weight: 700; padding: 9px 6px; white-space: nowrap; }
+.tone-option:hover { border-color: #a1b1eb; }
+.tone-option.is-selected { border-color: #7d94ef; background: var(--blue-tint); color: #2f4fc2; box-shadow: inset 0 0 0 .5px #7d94ef; }
+.primary-button { width: 100%; min-height: 51px; border: none; background: var(--blue); color: #fff; border-radius: 12px; margin-top: 22px; font-weight: 750; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background .18s, transform .18s; }
+.primary-button:hover { background: var(--blue-dark); }
+.primary-button:active { transform: scale(.99); }
+.primary-button svg { width: 17px; height: 17px; }
+.progress-message { background: #f4f7ff; border: 1px solid #e0e7ff; border-radius: 10px; color: #465fbc; margin: 12px 0 0; padding: 11px 12px; font-size: 12px; line-height: 1.65; }
+.results-section { margin-top: 30px; scroll-margin-top: 22px; }
+.results-heading { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 0 2px; margin-bottom: 15px; }
+.results-heading h2 { font-size: 19px; }
+.results-heading span { color: #8d95a1; font-size: 12px; }
+.analysis-box { background: #eef3ff; border: 1px solid #dfe8ff; padding: 15px 17px; border-radius: 14px; }
+.analysis-label { color: #5c70a4; font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+.analysis-box strong { display: block; font-size: 15px; }
+.analysis-box p { color: #5f6e8a; font-size: 12px; margin: 4px 0 0; line-height: 1.7; }
+.safety-notice { display: flex; gap: 11px; padding: 13px 15px; background: #fff6ed; border: 1px solid #ffe0bf; border-radius: 13px; margin-top: 11px; color: #7b4717; }
+.safety-notice .notice-icon { flex: 0 0 auto; background: #ffedd7; border-radius: 50%; width: 23px; height: 23px; text-align: center; font-weight: 800; line-height: 23px; }
+.safety-notice strong { font-size: 13px; }
+.safety-notice p { margin: 2px 0 0; color: #87572a; font-size: 12px; }
+.result-list-title { margin: 22px 0 10px; font-size: 13px; font-weight: 760; }
+.response-list { display: grid; gap: 10px; }
+.response-card { border: 1px solid #e3e7ee; background: #fff; border-radius: 14px; padding: 15px 16px 16px; transition: border-color .18s; }
+.response-card.recommended { border-color: #c2cffc; }
+.response-card:hover { border-color: #9fb2ef; }
+.response-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.response-card-head > span { color: #8994a3; font-size: 11px; font-weight: 680; }
+.response-card.recommended .response-card-head > span { color: var(--blue); }
+.response-text { font-size: 15px; font-weight: 530; color: #242b3a; line-height: 1.75; margin: 9px 0 0; user-select: text; }
+.copy-button { flex: 0 0 auto; border: 1px solid #e4e9f1; border-radius: 8px; background: #fafbff; color: #4e61a1; padding: 6px 11px; font-size: 12px; font-weight: 750; }
+.copy-button:hover, .copy-button.copied { background: #eaf0ff; border-color: #d4defd; color: var(--blue); }
+.recognized-details { margin-top: 17px; font-size: 12px; color: #69778c; }
+.recognized-details details { border: 1px solid #e5e9f0; border-radius: 11px; padding: 12px 14px; background: #fff; }
+.recognized-details summary { cursor: pointer; font-weight: 720; }
+.recognized-details summary span { font-weight: 400; color: #949daa; margin-right: 6px; }
+#recognized-text { white-space: pre-wrap; overflow-wrap: anywhere; background: #f6f7fa; border-radius: 8px; color: #374151; padding: 10px; }
+.results-note { margin: 13px 0 0; color: #8a94a2; font-size: 11px; }
+.page-footer { max-width: 700px; margin: 0 auto; text-align: center; padding: 0 25px 35px; color: #929cab; font-size: 11px; line-height: 1.8; }
+.page-footer strong { color: #677489; font-weight: 720; }
+.toast { z-index: 50; position: fixed; bottom: calc(22px + env(safe-area-inset-bottom)); left: 50%; transform: translate(-50%, 18px); background: #1b2440; color: #fff; padding: 10px 17px; border-radius: 12px; font-size: 13px; box-shadow: 0 8px 30px rgba(5,12,35,.22); text-align: center; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; width: max-content; max-width: calc(100% - 30px); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+@media (max-width: 620px) {
+  .header-inner { padding: 15px 20px; }
+  .brand-logo { width: 31px; height: 31px; }
+  main { padding: 38px 15px 52px; }
+  .intro { margin: 0 6px 26px; }
+  .intro p { font-size: 14px; line-height: 1.75; }
+  h1 { font-size: 35px; }
+  .composer { border-radius: 18px; padding: 20px 16px 18px; }
+  .section-titlebar { margin-bottom: 19px; }
+  .dropzone { padding: 24px 12px; }
+  .tone-option { font-size: 12px; }
+  .results-section { margin-top: 26px; }
+  .header-side { font-size: 11px; }
+}
+@media (max-width: 350px) {
+  .header-side { display: none; }
+  h1 { font-size: 31px; }
+  .tone-option { font-size: 11px; padding: 8px 3px; }
+  .composer { padding: 16px 12px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *:before, *:after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="FROST — חזרה למעלה">
+        <span class="brand-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2.7v18.6M2.7 12h18.6M5.4 5.4l13.2 13.2M18.6 5.4 5.4 18.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span>
+        <span class="brand-word">frost.</span>
+      </a>
+      <div class="header-side"><span class="status-dot"></span>פרטי · עובד בדפדפן</div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="intro" aria-labelledby="page-title">
+      <div class="eyebrow">התשובה הנכונה, בלי הדרמה.</div>
+      <h1 id="page-title">מה לענות לזה<span class="question">?</span></h1>
+      <p>קיבלת הודעה מעצבנת? העלה צילום מסך או הדבק את ההודעה, וקבל תשובות קצרות, חדות ורגועות.</p>
+    </section>
+
+    <section class="composer" aria-labelledby="input-heading">
+      <div class="section-titlebar">
+        <span class="section-num">01</span>
+        <div><h2 id="input-heading">ההודעה שקיבלת</h2><p class="section-caption">הוסף צילום מסך או הדבק את הטקסט</p></div>
+      </div>
+
+      <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="בחר צילום מסך להעלאה">
+        <input type="file" id="screenshot-input" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" hidden>
+        <div id="dropzone-empty" class="dropzone-empty">
+          <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="m6.5 16 4-4 3 3 2.1-2.2 2.5 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="8.5" r="1.3" fill="currentColor"/></svg></div>
+          <strong>העלה צילום מסך</strong>
+          <span>לחץ לבחירת תמונה מהטלפון</span>
+          <small>PNG, JPG, WEBP · עד 12MB</small>
+        </div>
+        <div id="image-preview-box" class="image-preview-box" hidden>
+          <img id="image-preview" alt="צילום המסך שבחרת">
+          <span class="preview-label">לחץ להחלפת התמונה</span>
+        </div>
+      </div>
+      <div id="file-actions" class="file-actions" hidden>
+        <span id="file-name" class="file-name"></span>
+        <button type="button" id="remove-image" class="text-button">הסר תמונה ✕</button>
+      </div>
+
+      <div class="or-divider">או</div>
+      <label class="field-label" for="message-input">הדבק הודעה</label>
+      <div class="textarea-wrap">
+        <textarea id="message-input" maxlength="6000" placeholder="כתוב או הדבק כאן את מה ששלחו לך..." aria-describedby="input-hint"></textarea>
+        <div class="field-hint"><span id="input-hint">כדאי להסיר שמות ופרטים אישיים</span><span id="character-count">0 / 6000</span></div>
+      </div>
+      <div class="examples"><span class="examples-title">דוגמאות:</span><button type="button" class="example-chip" data-example="insult">עלבון</button><button type="button" class="example-chip" data-example="pressure">לחץ</button><button type="button" class="example-chip" data-example="threat">איום</button></div>
+
+      <div class="subtle-divider"></div>
+      <div class="tone-title"><strong>איזו תשובה בא לך?</strong><span>בחר סגנון</span></div>
+      <div class="tone-options" role="group" aria-label="סגנון התגובה">
+        <button type="button" class="tone-option is-selected" data-tone="cool" aria-pressed="true">רגועה ❄</button>
+        <button type="button" class="tone-option" data-tone="firm" aria-pressed="false">חדה וברורה</button>
+        <button type="button" class="tone-option" data-tone="end" aria-pressed="false">לסיים שיחה</button>
+      </div>
+      <button type="button" id="generate-btn" class="primary-button"><span id="button-caption">קבל 3 תשובות</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <p id="ocr-progress" class="progress-message" role="status" aria-live="polite" hidden></p>
+    </section>
+
+    <section id="results-section" class="results-section" aria-labelledby="results-heading" hidden>
+      <div class="results-heading"><h2 id="results-heading">התשובות שלך</h2><span>לחץ על העתק כדי להשתמש</span></div>
+      <div id="empty-state" hidden></div>
+      <div id="result-state" hidden>
+        <div class="analysis-box">
+          <div class="analysis-label">מה זיהינו בשיחה</div>
+          <strong id="detected-title"></strong>
+          <p id="analysis-description"></p>
+        </div>
+        <div id="safety-notice" class="safety-notice" hidden><span class="notice-icon" aria-hidden="true">!</span><div><strong>שווה לשים לב</strong><p id="safety-text"></p></div></div>
+        <div class="result-list-title">3 נוסחים שאפשר לשלוח</div>
+        <div id="response-list" class="response-list" aria-live="polite"></div>
+        <div id="recognized-details" class="recognized-details" hidden><details><summary>הטקסט שזוהה בתמונה <span>אפשר לבדוק ולתקן</span></summary><p id="recognized-text"></p><button type="button" id="edit-recognized" class="text-button">ערוך את הטקסט</button></details></div>
+        <p class="results-note">תשובות שמציבות גבולות בלי להוסיף אש למדורה.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer"><strong>frost.</strong> כלי פשוט להצעות תגובה על בסיס כללים, לא צ׳אט AI. צילומי מסך מעובדים בדפדפן שלך ולא מועלים לשרת.</footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script>
+/*
+ * FROST — a fully static, browser-only reply helper.
+ * Text recognition uses Tesseract.js on the user's device.
+ * Response selection is transparent rule-based logic, not an LLM.
+ */
+(() => {
+  'use strict';
+
+  const $ = (id) => document.getElementById(id);
+  const ui = {
+    dropzone: $('dropzone'), screenshotInput: $('screenshot-input'),
+    emptyDrop: $('dropzone-empty'), previewBox: $('image-preview-box'),
+    preview: $('image-preview'), fileActions: $('file-actions'),
+    fileName: $('file-name'), removeImage: $('remove-image'),
+    textarea: $('message-input'), characterCount: $('character-count'),
+    generate: $('generate-btn'), buttonCaption: $('button-caption'),
+    progress: $('ocr-progress'), emptyState: $('empty-state'),
+    resultState: $('result-state'), detectedTitle: $('detected-title'),
+    analysisDescription: $('analysis-description'),
+    safetyNotice: $('safety-notice'), safetyText: $('safety-text'),
+    recognizedDetails: $('recognized-details'), recognizedText: $('recognized-text'),
+    editRecognized: $('edit-recognized'), responseList: $('response-list'),
+    toast: $('toast')
+  };
+
+  const state = {
+    file: null,
+    previewUrl: null,
+    tone: 'cool',
+    busy: false,
+    ocrText: '',
+    worker: null,
+    toastTimer: null,
+    ocrScriptPromise: null
+  };
+
+  const examples = {
+    insult: 'אתה כזה מטומטם, אין טעם בכלל לדבר איתך.',
+    pressure: 'למה אתה לא עונה לי עכשיו? אתה חייב לענות, נו כבר!',
+    threat: 'אם לא תעשה מה שאני אומר, אני אפרסם את התמונות שלך.'
+  };
+
+  const patterns = {
+    threat: [
+      /סחיטה|סוחט|אפרסם|אחשוף|אפיץ|יפרסם|יפיץ|להפיץ|אדליף|אשלח לכולם|כולם יראו|אספר לכולם|איומים|מאיים|תמונות שלך/iu,
+      /blackmail|extort|expos(e|ing) you|leak (your|those)|post (your|those) (photos|pics|pictures)|share your (photos|pics|pictures)|send your (photos|pics|pictures)|tell everyone|threaten/iu,
+      /(?:אם לא|אלא אם|unless|if you don.t).{0,100}(?:אפרסם|אחשוף|אפיץ|תמונות|כסף|לכולם|expose|leak|post|photos|pictures|pics)/iu
+    ],
+    insult: [
+      /מטומטם|טיפש|סתום|אפס|דפוק|מפגר|מכוער|אידיוט|לוזר|עלוב|סתמי|שתוק|אידיוטית|סתומה/iu,
+      /stupid|idiot|loser|moron|dumb|shut up|pathetic|ugly|worthless/iu
+    ],
+    guilt: [
+      /אם באמת היה אכפת|אם היית חבר|חבר אמיתי|אחרי כל מה|אתה מאכזב|את מאכזבת|לא אכפת לך|בגללך|תתבייש|תתביישי/iu,
+      /if you (really )?cared|a real friend would|after everything i.ve done|you don.t care|your fault|disappointed in you/iu
+    ],
+    pressure: [
+      /תענה כבר|תעני כבר|תענה עכשיו|תעני עכשיו|תשיב עכשיו|חייב לענות|חייבת לענות|נו כבר|למה אתה מסנן|למה את מסננת|מיד עכשיו|אין לך ברירה|מהר תענה|תענה לי/iu,
+      /answer me|reply now|respond now|right now|you have to reply|stop ignoring|why are you ignoring|no choice|do it now/iu
+    ]
+  };
+
+  const messages = {
+    he: {
+      threat: {
+        title: 'איום או ניסיון סחיטה',
+        description: 'יש כאן סימנים לאיום או לחץ חמור. לא כדאי להיגרר לוויכוח; שמירה על ראיות וקבלת עזרה חשובות יותר מתגובה שנונה.',
+        safety: 'לא חייבים לענות בכלל. אל תשלח כסף, תמונות או פרטים נוספים. שמור צילום מסך ופנה להורה, למבוגר שאתה סומך עליו או לגורם מתאים. אם יש סכנה מיידית, פנה לשירותי החירום.',
+        cool: [
+          'אני לא ממשיך שיחה שיש בה איומים.',
+          'קיבלתי את ההודעה. אני שומר תיעוד ולא ממשיך את השיחה.',
+          'אני מסיים את השיחה הזו.'
+        ],
+        firm: [
+          'איומים אינם דרך לדבר איתי. אני לא נענה לדרישות כאלה.',
+          'אני שומר את ההתכתבות ופונה לעזרה. לא אמשיך לדון בזה.',
+          'אין לי מה להוסיף. השיחה הסתיימה.'
+        ],
+        end: [
+          'אני מסיים את השיחה. אל תפנה אליי באיומים.',
+          'לא אמשיך להתכתב בנושא הזה.',
+          'השיחה נגמרה מבחינתי.'
+        ]
+      },
+      insult: {
+        title: 'עלבונות או זלזול',
+        description: 'נראה שיש כאן אמירה פוגענית. אפשר לענות באופן מדויק בלי להחזיר עלבון.',
+        cool: [
+          'אם יש לך משהו להגיד, אפשר לומר אותו בלי להעליב.',
+          'אני מעדיף שיחה מכבדת. יש לך משהו ענייני לומר?',
+          'לא ממשיך שיחה שבה מדברים אליי ככה.'
+        ],
+        firm: [
+          'לדבר אליי ככה לא יקדם את השיחה.',
+          'אפשר לחלוק עליי, אבל לא להעליב אותי.',
+          'כשיהיה אפשר לדבר בכבוד, נמשיך.'
+        ],
+        end: [
+          'אני לא מתכוון להתווכח עם עלבונות. נעצור כאן.',
+          'אין טעם להמשיך את השיחה בסגנון הזה.',
+          'מבחינתי השיחה הסתיימה.'
+        ]
+      },
+      guilt: {
+        title: 'ניסיון לעורר אשמה',
+        description: 'הניסוח עשוי לגרום לך להרגיש מחויב לפעול מתוך אשמה. מותר לך לבחור מה מתאים לך.',
+        cool: [
+          'אני מבין שזה חשוב לך, אבל אני צריך להחליט בעצמי.',
+          'אפשר לדבר על מה שמפריע לך בלי לגרום לי להרגיש אשם.',
+          'אני לא מקבל החלטות מתוך לחץ או אשמה.'
+        ],
+        firm: [
+          'זה שמשהו חשוב לך לא אומר שאני חייב להסכים.',
+          'בוא נדבר על העניין עצמו, בלי להפעיל רגשות אשמה.',
+          'הגבול שלי נשאר גם אם זה לא נעים לשמוע.'
+        ],
+        end: [
+          'אני לא רוצה להמשיך שיחה שמבוססת על רגשות אשמה.',
+          'אמרתי מה אני חושב, ואני עוצר כאן.',
+          'נחזור לזה רק אם אפשר לדבר בכבוד.'
+        ]
+      },
+      pressure: {
+        title: 'לחץ לקבל תגובה',
+        description: 'הצד השני כנראה דורש מענה מיידי. מותר לך לקחת זמן ולא לענות תחת לחץ.',
+        cool: [
+          'אני אענה כשיהיה לי זמן. אין צורך ללחוץ.',
+          'ראיתי את ההודעה, ואחזור אליך כשאוכל.',
+          'אני מעדיף שנדבר בלי לחץ.'
+        ],
+        firm: [
+          'לחץ לא יגרום לי לענות מהר יותר.',
+          'אני קובע מתי אני פנוי לענות.',
+          'אם השיחה תמשיך בלחץ, אעצור אותה.'
+        ],
+        end: [
+          'אני לא פנוי לשיחה עכשיו. נדבר בהמשך.',
+          'אני מפסיק להתכתב כרגע.',
+          'אענה בזמן שמתאים לי, לא מתוך דרישה.'
+        ]
+      },
+      general: {
+        title: 'שיחה מתוחה או לא ברורה',
+        description: 'לא זוהה סוג מסוים של פגיעה. הנה תשובות כלליות שיכולות לעזור להחזיר את השיחה למסלול.',
+        cool: [
+          'קראתי מה שכתבת. אשמח לדבר על זה בצורה רגועה.',
+          'אני מבין את מה שאתה אומר. בוא נדבר עניינית.',
+          'כרגע אני מעדיף לא להתווכח.'
+        ],
+        firm: [
+          'בוא נתמקד במה שחשוב, בלי להפוך את זה לריב.',
+          'אני מוכן לדבר, כל עוד השיחה נשארת מכבדת.',
+          'אני שומע אותך, אבל לא מסכים עם הדרך שבה זה נאמר.'
+        ],
+        end: [
+          'אני מעדיף לעצור כאן ולחזור לזה מאוחר יותר.',
+          'אני מסיים את השיחה לעכשיו.',
+          'אין לי עוד מה להוסיף כרגע.'
+        ]
+      }
+    },
+    en: {
+      threat: {
+        title: 'Threat or blackmail',
+        description: 'This message may contain threats or coercion. Your safety matters more than having a clever comeback.',
+        safety: 'You do not have to reply. Do not send money, photos, or more personal information. Save evidence and tell a trusted adult or appropriate authority. If you are in immediate danger, contact emergency services.',
+        cool: [
+          'I won’t continue a conversation that involves threats.',
+          'I have received your message. I’m keeping a record and won’t engage further.',
+          'I am ending this conversation.'
+        ],
+        firm: [
+          'Threats are not an acceptable way to speak to me. I won’t comply.',
+          'I am keeping this conversation and seeking support. I won’t discuss it further.',
+          'There is nothing more to discuss.'
+        ],
+        end: [
+          'This conversation is over. Do not threaten me again.',
+          'I won’t engage any further on this.',
+          'I am ending the conversation now.'
+        ]
+      },
+      insult: {
+        title: 'Insults or disrespect',
+        description: 'This sounds disrespectful. You can set a boundary without insulting the other person.',
+        cool: [
+          'You can make your point without insulting me.',
+          'I’m open to a respectful conversation if you are.',
+          'I’m not continuing a conversation in that tone.'
+        ],
+        firm: [
+          'Speaking to me like that won’t help your point.',
+          'You can disagree without being disrespectful.',
+          'We can talk when you’re ready to be respectful.'
+        ],
+        end: [
+          'I’m not arguing over insults. Let’s stop here.',
+          'There’s no reason to continue in this tone.',
+          'I’m ending this conversation.'
+        ]
+      },
+      guilt: {
+        title: 'Possible guilt pressure',
+        description: 'This might be trying to make you feel guilty for having a boundary.',
+        cool: [
+          'I hear you, but I still need to make my own decision.',
+          'We can talk about this without using guilt.',
+          'I don’t want to decide something under pressure.'
+        ],
+        firm: [
+          'Something mattering to you doesn’t mean I have to agree.',
+          'Let’s discuss the issue, not try to make each other feel guilty.',
+          'My boundary still stands.'
+        ],
+        end: [
+          'I won’t continue a conversation built around guilt.',
+          'I’ve said what I need to say.',
+          'We can revisit this when it’s respectful.'
+        ]
+      },
+      pressure: {
+        title: 'Pressure to respond',
+        description: 'They seem to be demanding an immediate response. You can take your time.',
+        cool: [
+          'I’ll reply when I have time. There’s no need to push.',
+          'I saw your message. I’ll get back to you when I can.',
+          'I’d rather we talk without pressure.'
+        ],
+        firm: [
+          'Pressuring me won’t make me respond faster.',
+          'I decide when I’m available to reply.',
+          'If the pressure continues, I’ll stop responding.'
+        ],
+        end: [
+          'I’m not available to talk right now.',
+          'I’m stepping away from this conversation.',
+          'I’ll answer in my own time.'
+        ]
+      },
+      general: {
+        title: 'Unclear or tense conversation',
+        description: 'No specific harmful pattern stood out. Here are calm, general replies.',
+        cool: [
+          'I read your message. I’m happy to talk calmly.',
+          'I hear what you’re saying. Let’s keep this constructive.',
+          'I’d rather not argue right now.'
+        ],
+        firm: [
+          'Let’s focus on the issue instead of turning this into an argument.',
+          'I’m willing to talk as long as we keep it respectful.',
+          'I hear you, but I don’t agree with the way that was said.'
+        ],
+        end: [
+          'I’d rather stop here and come back to this later.',
+          'I’m ending this conversation for now.',
+          'I don’t have anything else to add right now.'
+        ]
+      }
+    }
+  };
+
+  function detectLanguage(text) {
+    const heb = (text.match(/[\u0590-\u05FF]/g) || []).length;
+    const lat = (text.match(/[a-z]/gi) || []).length;
+    return heb >= lat * 0.55 ? 'he' : 'en';
+  }
+
+  function classify(text) {
+    const normalized = String(text).replace(/[\u200E\u200F\u202A-\u202E]/g, ' ').slice(0, 6000);
+    const type = ['threat', 'insult', 'guilt', 'pressure'].find((candidate) =>
+      patterns[candidate].some((pattern) => pattern.test(normalized))
+    );
+    return { category: type || 'general', language: detectLanguage(normalized) };
+  }
+
+  function showToast(message) {
+    window.clearTimeout(state.toastTimer);
+    ui.toast.textContent = message;
+    ui.toast.classList.add('show');
+    state.toastTimer = window.setTimeout(() => ui.toast.classList.remove('show'), 2600);
+  }
+
+  function updateCount() {
+    ui.characterCount.textContent = `${ui.textarea.value.length} / 6000`;
+  }
+
+  function setProgress(message) {
+    ui.progress.hidden = !message;
+    ui.progress.textContent = message || '';
+  }
+
+  function setBusy(busy) {
+    state.busy = busy;
+    ui.generate.disabled = busy;
+    ui.buttonCaption.textContent = busy ? 'קורא את צילום המסך…' : 'קבל 3 תשובות';
+  }
+
+  function releasePreview() {
+    if (state.previewUrl) URL.revokeObjectURL(state.previewUrl);
+    state.previewUrl = null;
+  }
+
+  function removeImage() {
+    releasePreview();
+    state.file = null;
+    state.ocrText = '';
+    ui.screenshotInput.value = '';
+    ui.preview.removeAttribute('src');
+    ui.previewBox.hidden = true;
+    ui.emptyDrop.hidden = false;
+    ui.fileActions.hidden = true;
+    ui.recognizedDetails.hidden = true;
+  }
+
+  function acceptFile(file) {
+    if (!file || !file.type.startsWith('image/')) {
+      showToast('אפשר להעלות קובץ תמונה בלבד');
+      return;
+    }
+    if (file.size > 12 * 1024 * 1024) {
+      showToast('בחר תמונה שגודלה עד 12MB');
+      return;
+    }
+    removeImage();
+    state.file = file;
+    state.previewUrl = URL.createObjectURL(file);
+    ui.preview.src = state.previewUrl;
+    ui.previewBox.hidden = false;
+    ui.emptyDrop.hidden = true;
+    ui.fileName.textContent = file.name || 'תמונה מהלוח';
+    ui.fileActions.hidden = false;
+    ui.textarea.value = '';
+    updateCount();
+    setProgress('התמונה מוכנה. לחץ על „קבל 3 תשובות” כדי לזהות את הטקסט.');
+  }
+
+  async function loadOcrScript() {
+    if (window.Tesseract?.createWorker) return;
+    if (state.ocrScriptPromise) return state.ocrScriptPromise;
+    state.ocrScriptPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@6.0.1/dist/tesseract.min.js';
+      script.async = true;
+      script.onload = () => window.Tesseract?.createWorker ? resolve() : reject(new Error('OCR unavailable'));
+      script.onerror = () => reject(new Error('OCR CDN unavailable'));
+      document.head.appendChild(script);
+    }).catch((error) => {
+      state.ocrScriptPromise = null;
+      throw error;
+    });
+    return state.ocrScriptPromise;
+  }
+
+  async function recognizeText(file) {
+    setProgress('מכין זיהוי טקסט מקומי. בפעם הראשונה צריך להוריד רכיבי OCR…');
+    await loadOcrScript();
+    if (!state.worker) {
+      state.worker = await window.Tesseract.createWorker('heb+eng', 1, {
+        logger(info) {
+          if (info.status === 'recognizing text') {
+            setProgress(`מזהה את הטקסט שבתמונה… ${Math.round((info.progress || 0) * 100)}%`);
+          }
+        }
+      });
+    }
+    const result = await state.worker.recognize(file);
+    return (result?.data?.text || '').trim();
+  }
+
+  async function copyText(content, button) {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(content);
+      } else {
+        // For local file previews and older browser contexts.
+        const temp = document.createElement('textarea');
+        temp.value = content;
+        temp.style.position = 'fixed';
+        temp.style.opacity = '0';
+        temp.setAttribute('readonly', '');
+        document.body.appendChild(temp);
+        temp.select();
+        const success = document.execCommand('copy');
+        temp.remove();
+        if (!success) throw new Error('copy failed');
+      }
+      const original = button.textContent;
+      button.textContent = '✓ הועתק';
+      button.classList.add('copied');
+      showToast('התשובה הועתקה ללוח');
+      window.setTimeout(() => {
+        button.textContent = original;
+        button.classList.remove('copied');
+      }, 2100);
+    } catch (_) {
+      showToast('לא ניתן להעתיק אוטומטית. אפשר לסמן ולהעתיק את הטקסט.');
+    }
+  }
+
+  function render(text, fromOcr) {
+    const { category, language } = classify(text);
+    const result = messages[language][category];
+    ui.detectedTitle.textContent = result.title;
+    ui.analysisDescription.textContent = result.description;
+    ui.safetyNotice.hidden = category !== 'threat';
+    if (category === 'threat') ui.safetyText.textContent = result.safety;
+
+    const shouldShowOcr = fromOcr || Boolean(state.ocrText && text === state.ocrText);
+    ui.recognizedDetails.hidden = !shouldShowOcr;
+    if (shouldShowOcr) ui.recognizedText.textContent = text;
+
+    ui.responseList.replaceChildren();
+    const cards = result[state.tone];
+    const labels = language === 'he'
+      ? ['מומלץ', 'אפשרות נוספת', 'עוד ניסוח']
+      : ['Recommended', 'Another option', 'One more way'];
+
+    cards.forEach((response, index) => {
+      const card = document.createElement('article');
+      card.className = `response-card${index === 0 ? ' recommended' : ''}`;
+      const head = document.createElement('div');
+      head.className = 'response-card-head';
+      const title = document.createElement('span');
+      title.textContent = labels[index];
+      const copy = document.createElement('button');
+      copy.type = 'button';
+      copy.className = 'copy-button';
+      copy.setAttribute('aria-label', `העתק תשובה ${index + 1}`);
+      copy.textContent = 'העתק';
+      copy.addEventListener('click', () => copyText(response, copy));
+      const paragraph = document.createElement('p');
+      paragraph.className = 'response-text';
+      paragraph.dir = language === 'he' ? 'rtl' : 'ltr';
+      paragraph.textContent = response;
+      head.append(title, copy);
+      card.append(head, paragraph);
+      ui.responseList.appendChild(card);
+    });
+
+    ui.emptyState.hidden = true;
+    $('results-section').hidden = false;
+    ui.resultState.hidden = false;
+    if (window.innerWidth < 791) {
+      $('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  async function generate() {
+    if (state.busy) return;
+    let text = ui.textarea.value.trim();
+    let fromOcr = false;
+    if (!text && !state.file) {
+      showToast('צריך קודם להעלות תמונה או להדביק הודעה');
+      ui.textarea.focus();
+      return;
+    }
+    if (!text && state.file) {
+      setBusy(true);
+      try {
+        text = await recognizeText(state.file);
+        if (text.replace(/\s/g, '').length < 5) {
+          setProgress('לא הצלחנו לקרוא מספיק טקסט. נסה צילום חד יותר או הדבק את ההודעה ידנית.');
+          showToast('לא זוהה מספיק טקסט בתמונה');
+          return;
+        }
+        ui.textarea.value = text.slice(0, 6000);
+        state.ocrText = ui.textarea.value;
+        updateCount();
+        text = ui.textarea.value;
+        fromOcr = true;
+      } catch (error) {
+        console.warn('OCR failed:', error);
+        setProgress('זיהוי התמונה לא זמין כרגע. בדוק חיבור לאינטרנט והדבק את ההודעה כטקסט.');
+        showToast('לא הצלחנו לזהות טקסט. אפשר לנסות שוב או להדביק ידנית.');
+        return;
+      } finally {
+        setBusy(false);
+      }
+    }
+    setProgress('');
+    render(text, fromOcr);
+  }
+
+  ui.screenshotInput.addEventListener('change', (event) => {
+    acceptFile(event.target.files?.[0]);
+  });
+  ui.dropzone.addEventListener('click', () => ui.screenshotInput.click());
+  ui.dropzone.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      ui.screenshotInput.click();
+    }
+  });
+  ['dragenter', 'dragover'].forEach((type) => ui.dropzone.addEventListener(type, (event) => {
+    event.preventDefault();
+    ui.dropzone.classList.add('is-dragover');
+  }));
+  ['dragleave', 'drop'].forEach((type) => ui.dropzone.addEventListener(type, (event) => {
+    event.preventDefault();
+    ui.dropzone.classList.remove('is-dragover');
+    if (type === 'drop' && event.dataTransfer?.files?.[0]) acceptFile(event.dataTransfer.files[0]);
+  }));
+  document.addEventListener('paste', (event) => {
+    const item = Array.from(event.clipboardData?.items || []).find((value) => value.type.startsWith('image/'));
+    if (item) {
+      event.preventDefault();
+      acceptFile(item.getAsFile());
+      showToast('התמונה הודבקה בהצלחה');
+    }
+  });
+  ui.removeImage.addEventListener('click', removeImage);
+  ui.textarea.addEventListener('input', updateCount);
+  ui.generate.addEventListener('click', generate);
+  ui.editRecognized.addEventListener('click', () => {
+    ui.textarea.focus();
+    ui.textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    showToast('ערוך את הטקסט ולחץ שוב על יצירת תשובה');
+  });
+  document.querySelectorAll('[data-example]').forEach((button) => button.addEventListener('click', () => {
+    removeImage();
+    ui.textarea.value = examples[button.dataset.example];
+    updateCount();
+    setProgress('');
+    ui.textarea.focus();
+  }));
+  document.querySelectorAll('[data-tone]').forEach((button) => button.addEventListener('click', () => {
+    state.tone = button.dataset.tone;
+    document.querySelectorAll('[data-tone]').forEach((option) => {
+      const selected = option === button;
+      option.classList.toggle('is-selected', selected);
+      option.setAttribute('aria-pressed', String(selected));
+    });
+    // If there is already a result, update the suggestions immediately.
+    if (!ui.resultState.hidden && ui.textarea.value.trim()) render(ui.textarea.value.trim(), Boolean(state.ocrText && ui.textarea.value.trim() === state.ocrText));
+  }));
+  window.addEventListener('pagehide', () => {
+    releasePreview();
+    if (state.worker) state.worker.terminate().catch(() => {});
+  });
+})();
+
+  </script>
+</body>
+</html>
